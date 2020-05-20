@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const hi = require('./db')
 const NodeGeocoder = require('node-geocoder');
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const options = {
     provider: 'google',
@@ -16,20 +20,20 @@ const geocoder = NodeGeocoder(options);
 
 // Using callback
 
-app.get('/hello', async (req, res) => {
+app.get('/go', async (req, res) => {
     const ress = await geocoder.geocode({
-        address: '29 champs elysée',
-        country: 'France',
-        zipcode: '75008'
+        address: req.body.address,
+        country: req.body.country,
+        zipcode: req.body.zipcode
       });
     res.json(ress);
 })
 
-app.get('/hello2', async (req, res) => {
+app.get('/go2', async (req, res) => {
     res.json('ssss');
 })
 
 
-app.listen(3066, () => {
-    console.log('Start server at port 3066.')
+app.listen(3009, () => {
+    console.log('Start server at port 3009.')
 })
