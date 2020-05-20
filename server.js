@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 const hi = require('./db')
 const NodeGeocoder = require('node-geocoder');
 const bodyParser = require('body-parser')
@@ -34,10 +35,10 @@ app.get('/go2', async (req, res) => {
 })
 
 app.get('/map', async (req, res) => {
-    res.sendFile('index.html');
+    res.sendFile(path.join(__dirname+'/index.html'));
 });
 
 
-app.listen(3009, () => {
-    console.log('Start server at port 3009.')
+app.listen(3022, () => {
+    console.log('Start server at port 3022.')
 })
