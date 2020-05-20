@@ -25,13 +25,17 @@ app.get('/go', async (req, res) => {
         address: req.body.address,
         country: req.body.country,
         zipcode: req.body.zipcode
-      });
+    });
     res.json(ress);
 })
 
 app.get('/go2', async (req, res) => {
     res.json('ssss');
 })
+
+app.get('/map', async (req, res) => {
+    res.sendFile('index.html');
+});
 
 
 app.listen(3009, () => {
