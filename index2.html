@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get lat,long</title>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <form>
+                <input id="address" type="text" placeholder="ที่อยู่" required>
+                <button id="submit" type="button">Search</button>
+            </form>
+        </div>
+        <div>
+            <p id="latitude">lat</p>
+            <p id="longitude">lng</p>
+        </div>
+    </div>
+    <div id="map"></div>
+    <script>
+        let maps;
+        let position = { lat: 13.847860, lng: 100.604274 }
+        function initMap() {
+            maps = new google.maps.Map(document.getElementById('map'), {
+                center: position,
+                zoom: 15
+            });
+            let geocoder = new google.maps.Geocoder();
+            document.getElementById('submit').addEventListener('click', function () {
+                geocoderAddress(geocoder, maps);
+            });
+        }
+        function geocoderAddress(geocoder, resultsMap) {
+            let address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                let latitude = results[0].geometry.location.lat();
+                let longitude = results[0].geometry.location.lng();
+
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    let marker = new google.maps.Marker({
+                        animation: google.maps.Animation.DROP,
+                        map: resultsMap,
+                        position: results[0].geometry.location,
+                        draggable: true
+                    })
+                    document.getElementById("latitude").innerHTML = latitude;
+                    document.getElementById("longitude").innerHTML = longitude;
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            })
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1s0zEzy_41a4BtYzddBWdDYXDsgrQ7zQ&callback=initMap"
+        async defer></script>
+</body>
+
+</html>

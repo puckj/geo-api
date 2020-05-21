@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const hi = require('./db')
 const NodeGeocoder = require('node-geocoder');
 const bodyParser = require('body-parser')
 
@@ -13,7 +12,7 @@ const options = {
 
     // Optional depending on the providers
     // fetch: customFetchImplementation,
-    apiKey: 'AIzaSyAG0Qfgbyn_KVaLcxA5NAVRZxJmI8JzF70', // for Mapquest, OpenCage, Google Premier
+    apiKey: 'AIzaSyD1s0zEzy_41a4BtYzddBWdDYXDsgrQ7zQ', // for Mapquest, OpenCage, Google Premier
     formatter: null // 'gpx', 'string', ...
 };
 
@@ -38,7 +37,11 @@ app.get('/map', async (req, res) => {
     res.sendFile(path.join(__dirname+'/index.html'));
 });
 
+app.get('/get', async (req, res) => {
+    res.sendFile(path.join(__dirname+'/index3.html'));
+});
 
-app.listen(3022, () => {
-    console.log('Start server at port 3022.')
+
+app.listen(3020, () => {
+    console.log('Start server at port 3020.')
 })
