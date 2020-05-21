@@ -1,63 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-
-        /* Optional: Makes the sample page fill the window. */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get lat,long</title>
+    <link rel="stylesheet" type="text/css" href="/style/index.css">
 </head>
 
 <body>
+    <div class="container">
+        <div class="header-container">
+            <div>
+                <form>
+                    <input id="address" type="text" placeholder="ที่อยู่" required>
+                    <button id="submit" type="button">Search</button>
+                </form>
+                <div class="lat-lng-items">
+                    <p>lat: </p><input id="latitude" type="text" disabled>
+                </div>
+                <div class="lat-lng-items">
+                    <p>lng: </p><input id="longitude" type="text" disabled>
+                </div>
+            </div>
+            <div>
+                <button id="addBtn" type="button" onclick="addLocationHandler()">Add</button>
+                <button id="confirmBtn" type="button" onclick="confirmLocationHandler()">Confirm</button>
+                <table id="myTable">
+                    <tr>
+                        <th>ที่อยู่</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <div id="map"></div>
-    <script>
-        let maps;
-        let position = { lat: 13.883932, lng: 100.512292 }
-        let jsonObj = [
-            { "location": "Mark1", "lat": "13.885263010305238", "lng": "100.51266268360212" },
-            { "location": "Mark2", "lat": "13.87862665201913", "lng": "100.51158470038406" },
-            { "location": "Mark3", "lat": "13.880795500444238", "lng": "100.51546277489119" },
-            { "location": "Mark4", "lat": "13.882151876645558", "lng": "100.50409283532726" },
-            { "location": "Mark5", "lat": "13.8817604568842", "lng": "100.50919851916281" },
-        ];
-
-        function initMap() {
-            maps = new google.maps.Map(document.getElementById('map'), {
-                center: position,
-                zoom: 15
-            });
-            let marker, info;
-            $.each(jsonObj, function (i, item) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(item.lat, item.lng),
-                    map: maps
-                })
-            })
-
-            info = new google.maps.InfoWindow();
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    info.setContent(item.location);
-                    info.open(maps, marker)
-                }
-            })(marker, i));
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/javascript/index.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1s0zEzy_41a4BtYzddBWdDYXDsgrQ7zQ&callback=initMap"
         async defer></script>
 </body>

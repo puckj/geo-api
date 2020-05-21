@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get lat,long</title>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
     <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
         #map {
             height: 100%;
         }
 
-        .container {
-            max-width: 1000px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
+        /* Optional: Makes the sample page fill the window. */
         html,
         body {
             height: 100%;
@@ -26,54 +23,40 @@
 </head>
 
 <body>
-    <div class="container">
-        <div>
-            <form>
-                <input id="address" type="text" placeholder="ที่อยู่" required>
-                <button id="submit" type="button">Search</button>
-            </form>
-        </div>
-        <div>
-            <p id="latitude">lat</p>
-            <p id="longitude">lng</p>
-        </div>
-    </div>
     <div id="map"></div>
     <script>
         let maps;
-        let position = { lat: 13.847860, lng: 100.604274 }
+        let position = { lat: 13.883932, lng: 100.512292 }
+        
+        let positionArr = JSON.parse(localStorage.myArrData);
+        
+        console.log(positionArr);
+        
+        
+
         function initMap() {
             maps = new google.maps.Map(document.getElementById('map'), {
                 center: position,
                 zoom: 15
             });
-            let geocoder = new google.maps.Geocoder();
-            document.getElementById('submit').addEventListener('click', function () {
-                geocoderAddress(geocoder, maps);
-            });
-        }
-        function geocoderAddress(geocoder, resultsMap) {
-            let address = document.getElementById('address').value;
-            geocoder.geocode({ 'address': address }, function (results, status) {
-                let latitude = results[0].geometry.location.lat();
-                let longitude = results[0].geometry.location.lng();
-
-                if (status === 'OK') {
-                    resultsMap.setCenter(results[0].geometry.location);
-                    let marker = new google.maps.Marker({
-                        animation: google.maps.Animation.DROP,
-                        map: resultsMap,
-                        position: results[0].geometry.location,
-                        draggable: true
-                    })
-                    document.getElementById("latitude").innerHTML = latitude;
-                    document.getElementById("longitude").innerHTML = longitude;
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
+            let marker, info;
+            $.each(positionArr, function (i, item) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(item.lat, item.lng),
+                    map: maps
+                })
             })
+
+            info = new google.maps.InfoWindow();
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    info.setContent(item.location);
+                    info.open(maps, marker)
+                }
+            })(marker, i));
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1s0zEzy_41a4BtYzddBWdDYXDsgrQ7zQ&callback=initMap"
         async defer></script>
 </body>

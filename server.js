@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static(__dirname + '/'));
 
 const options = {
     provider: 'google',
@@ -33,14 +34,13 @@ app.get('/go2', async (req, res) => {
     res.json('ssss');
 })
 
-app.get('/map', async (req, res) => {
+app.get('/get', async (req, res) => {
     res.sendFile(path.join(__dirname+'/index.html'));
 });
 
-app.get('/get', async (req, res) => {
-    res.sendFile(path.join(__dirname+'/index3.html'));
+app.get('/map', async (req, res) => {
+    res.sendFile(path.join(__dirname+'/index2.html'));
 });
-
 
 app.listen(3020, () => {
     console.log('Start server at port 3020.')
