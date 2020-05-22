@@ -23,14 +23,15 @@ function initMap() {
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(item.lat, item.lng),
             map: maps
-        })
-    })
+        });
 
-    info = new google.maps.InfoWindow();
-    google.maps.event.addListener(marker, 'click', (function (marker, i) {
-        return function () {
-            info.setContent(item.location);
-            info.open(maps, marker)
-        }
-    })(marker, i));
+
+        info = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                info.setContent(item.address);
+                info.open(maps, marker)
+            }
+        })(marker, i));
+    })
 }
